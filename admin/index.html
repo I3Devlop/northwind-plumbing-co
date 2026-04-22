@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Client CMS Workspace | decap CMS</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page-cream: #f8f5ef;
+      --page-ink: #0f172a;
+      --page-muted: #526070;
+      --page-line: rgba(15, 23, 42, 0.08);
+      --page-accent: #0f766e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--page-ink);
+      background:
+        radial-gradient(circle at top left, rgba(16, 185, 129, 0.12), transparent 28%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.78), rgba(248, 245, 239, 0.98));
+    }
+    .shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+    .frame {
+      border: 1px solid var(--page-line);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+    }
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--page-line);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--page-accent);
+    }
+    h1 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--page-muted);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 640px;
+    }
+    .tabs {
+      display: inline-flex;
+      gap: 8px;
+      border: 1px solid var(--page-line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 6px;
+    }
+    .tabs button {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--page-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 11px 16px;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      background: #0f172a;
+      color: white;
+    }
+    .workspace {
+      min-height: 760px;
+    }
+    .content-pane {
+      display: none;
+      height: 760px;
+    }
+    .content-pane.active {
+      display: block;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: white;
+    }
+    .requests-layout {
+      display: none;
+      grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+      gap: 20px;
+      padding: 22px;
+    }
+    .requests-layout.active {
+      display: grid;
+    }
+    .panel {
+      border: 1px solid var(--page-line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.84);
+      padding: 18px;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.05);
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 22px;
+      font-family: Fraunces, Georgia, serif;
+      letter-spacing: -0.02em;
+    }
+    .panel p {
+      margin: 10px 0 0;
+      color: var(--page-muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .stack { display: grid; gap: 14px; margin-top: 18px; }
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #607086;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #dbe2ea;
+      border-radius: 18px;
+      background: white;
+      color: var(--page-ink);
+      font: inherit;
+      padding: 13px 14px;
+      outline: none;
+    }
+    textarea { min-height: 150px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      border-color: #14b8a6;
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-primary, .btn-secondary {
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 18px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary {
+      border: 0;
+      background: #0f172a;
+      color: white;
+    }
+    .btn-secondary {
+      border: 1px solid #d4dce5;
+      background: rgba(255, 255, 255, 0.92);
+      color: #334155;
+    }
+    .thread-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .thread-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      max-height: 620px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .message {
+      border: 1px solid var(--page-line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 16px;
+    }
+    .message-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .message-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .message-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--page-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid #dbe2ea;
+      background: white;
+      color: #475569;
+    }
+    .chip.status-new { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+    .chip.status-reviewing { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
+    .chip.status-approved { background: #ecfdf5; color: #15803d; border-color: #86efac; }
+    .chip.status-shipped { background: #f0fdf4; color: #166534; border-color: #86efac; }
+    .chip.status-closed { background: #f8fafc; color: #475569; border-color: #dbe2ea; }
+    .chip.type-system { background: #0f172a; color: white; border-color: #0f172a; }
+    .empty {
+      padding: 28px;
+      text-align: center;
+      color: var(--page-muted);
+      border: 1px dashed #cbd5e1;
+      border-radius: 24px;
+      background: rgba(248, 250, 252, 0.85);
+    }
+    .status-line {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--page-muted);
+      min-height: 20px;
+    }
+    @media (max-width: 980px) {
+      .requests-layout.active {
+        grid-template-columns: 1fr;
+      }
+      .workspace, .content-pane { min-height: auto; height: auto; }
+      iframe { min-height: 75vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="frame" id="app">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Client workspace</p>
+          <h1 id="workspace-title">Content and requests</h1>
+          <p class="subtitle">Use the decap CMS tab for content edits and the requests tab to log bugs, features, or improvements that should be reviewed in the main operations dashboard.</p>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Admin sections">
+          <button type="button" class="active" data-tab="content">Content</button>
+          <button type="button" data-tab="requests">Requests</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <div class="content-pane active" data-pane="content">
+          <iframe src="/admin/content.html" title="Content manager"></iframe>
+        </div>
+
+        <div class="requests-layout" data-pane="requests">
+          <section class="panel">
+            <h2>Create request</h2>
+            <p>Internal note only. These requests sync into the main-site operations dashboard for review and regeneration approval.</p>
+            <form id="request-form" class="stack">
+              <div>
+                <label for="request-type">Request type</label>
+                <select id="request-type" name="type">
+                  <option value="bug">Bug</option>
+                  <option value="feature">Feature</option>
+                  <option value="improvement">Improvement</option>
+                  <option value="note">Note</option>
+                </select>
+              </div>
+              <div>
+                <label for="request-priority">Priority</label>
+                <select id="request-priority" name="priority">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+              <div>
+                <label for="request-title">Short title</label>
+                <input id="request-title" name="title" type="text" placeholder="Example: Fix contact form spacing on mobile" required />
+              </div>
+              <div>
+                <label for="request-body">Details</label>
+                <textarea id="request-body" name="body" placeholder="Describe the issue, improvement, or feature request in enough detail for the operations team." required></textarea>
+              </div>
+              <div>
+                <label for="request-checklist">Optional checklist</label>
+                <textarea id="request-checklist" name="checklist" placeholder="One item per line, if you want a short checklist."></textarea>
+              </div>
+              <div class="actions">
+                <button type="submit" class="btn-primary">Send request</button>
+                <button type="button" class="btn-secondary" id="refresh-thread">Refresh thread</button>
+              </div>
+              <p class="status-line" id="form-status"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="thread-header">
+              <div>
+                <h2>Request thread</h2>
+                <p id="thread-copy">Recent notes, approvals, and system updates for this site.</p>
+              </div>
+              <span class="chip" id="thread-count">0 messages</span>
+            </div>
+            <div class="thread-list" id="thread-list">
+              <div class="empty">No requests yet. Use the form to send the first note into the operations queue.</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/admin/request-config.js"></script>
+  <script>
+    const config = window.CLIENT_CMS_CONFIG || {};
+    const state = { activeTab: 'content', thread: null };
+    const tabs = Array.from(document.querySelectorAll('[data-tab]'));
+    const panes = Array.from(document.querySelectorAll('[data-pane]'));
+    const form = document.getElementById('request-form');
+    const threadList = document.getElementById('thread-list');
+    const threadCount = document.getElementById('thread-count');
+    const formStatus = document.getElementById('form-status');
+    const refreshButton = document.getElementById('refresh-thread');
+    const workspaceTitle = document.getElementById('workspace-title');
+
+    function setActiveTab(tab) {
+      state.activeTab = tab;
+      tabs.forEach((button) => button.classList.toggle('active', button.dataset.tab === tab));
+      panes.forEach((pane) => pane.classList.toggle('active', pane.dataset.pane === tab));
+    }
+
+    function statusClass(status) {
+      return 'chip status-' + (status || 'new');
+    }
+
+    function typeClass(type) {
+      return 'chip type-' + (type || 'note');
+    }
+
+    function renderThread(thread) {
+      const messages = Array.isArray(thread?.messages) ? thread.messages : [];
+      threadCount.textContent = messages.length + (messages.length === 1 ? ' message' : ' messages');
+
+      if (messages.length === 0) {
+        threadList.innerHTML = '<div class="empty">No requests yet. Use the form to send the first note into the operations queue.</div>';
+        return;
+      }
+
+      threadList.innerHTML = messages.map((message) => `
+        <article class="message">
+          <div class="message-top">
+            <div>
+              <h3 class="message-title">${escapeHtml(message.title || 'Untitled update')}</h3>
+              <div class="message-meta">
+                <span>${escapeHtml(message.createdBy || 'internal')}</span>
+                <span>${escapeHtml(formatTime(message.createdAt))}</span>
+              </div>
+            </div>
+            <div style="display:grid; gap:8px; justify-items:end;">
+              <span class="${typeClass(message.type)}">${escapeHtml(message.type || 'note')}</span>
+              <span class="${statusClass(message.status)}">${escapeHtml(message.status || 'new')}</span>
+            </div>
+          </div>
+          <p>${escapeHtml(message.body || '')}</p>
+        </article>
+      `).join('');
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatTime(value) {
+      if (!value) return 'Just now';
+      const date = new Date(String(value).replace(' ', 'T') + 'Z');
+      if (Number.isNaN(date.getTime())) return 'Just now';
+      return date.toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    async function fetchThread() {
+      if (!config.requestApiBase || !config.siteId) {
+        threadList.innerHTML = '<div class="empty">Request workspace is not configured for this site yet.</div>';
+        return;
+      }
+
+      const response = await fetch(`${config.requestApiBase}/sites/${encodeURIComponent(config.siteId)}/thread`, {
+        headers: {
+          'X-Site-Request-Token': config.requestToken || '',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load request thread.');
+      }
+
+      state.thread = await response.json();
+      renderThread(state.thread);
+    }
+
+    async function submitRequest(event) {
+      event.preventDefault();
+      if (!config.requestApiBase || !config.siteId) {
+        formStatus.textContent = 'Request workspace is not configured yet for this site.';
+        return;
+      }
+
+      const formData = new FormData(form);
+      const checklist = String(formData.get('checklist') || '')
+        .split(/\r?\n/)
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+
+      formStatus.textContent = 'Sending request…';
+
+      const response = await fetch(`${config.requestApiBase}/sites/${encodeURIComponent(config.siteId)}/messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Site-Request-Token': config.requestToken || '',
+        },
+        body: JSON.stringify({
+          type: formData.get('type'),
+          priority: formData.get('priority'),
+          title: formData.get('title'),
+          body: formData.get('body'),
+          checklist,
+          createdBy: 'internal',
+          source: 'client-cms',
+        }),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || 'Failed to send request.');
+      }
+
+      form.reset();
+      formStatus.textContent = 'Request sent to the operations dashboard.';
+      await fetchThread();
+    }
+
+    tabs.forEach((button) => {
+      button.addEventListener('click', () => setActiveTab(button.dataset.tab));
+    });
+
+    refreshButton.addEventListener('click', () => {
+      fetchThread().catch((error) => {
+        formStatus.textContent = error.message || 'Failed to refresh thread.';
+      });
+    });
+
+    form.addEventListener('submit', (event) => {
+      submitRequest(event).catch((error) => {
+        formStatus.textContent = error.message || 'Failed to send request.';
+      });
+    });
+
+    workspaceTitle.textContent = config.businessName ? `${config.businessName} workspace` : 'Client CMS workspace';
+    fetchThread().catch(() => {});
+  </script>
+</body>
+</html>

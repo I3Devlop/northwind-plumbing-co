@@ -1,0 +1,89 @@
+backend:
+  name: test-repo
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "src/content/pages/home.md"
+        label: "Home"
+        name: "home"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "SEO Title", name: seoTitle, widget: string, required: false }
+          - { label: "SEO Description", name: seoDescription, widget: text, required: false }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: string, required: false }
+          - { label: "Hero Image", name: heroImage, widget: image, required: false }
+          - { label: "Show in Navigation", name: showInNav, widget: boolean, default: true }
+          - { label: "Navigation Order", name: navOrder, widget: number, default: 1 }
+          - { label: "Canonical URL", name: canonicalUrl, widget: string, required: false }
+          - { label: "OG Image", name: ogImage, widget: image, required: false }
+          - { label: Body, name: body, widget: markdown }
+
+      - file: "src/content/pages/about.md"
+        label: "About"
+        name: "about"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "SEO Title", name: seoTitle, widget: string, required: false }
+          - { label: "SEO Description", name: seoDescription, widget: text, required: false }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: string, required: false }
+          - { label: "Hero Image", name: heroImage, widget: image, required: false }
+          - { label: "Show in Navigation", name: showInNav, widget: boolean, default: true }
+          - { label: "Navigation Order", name: navOrder, widget: number, default: 2 }
+          - { label: "Canonical URL", name: canonicalUrl, widget: string, required: false }
+          - { label: "OG Image", name: ogImage, widget: image, required: false }
+          - { label: Body, name: body, widget: markdown }
+
+      - file: "src/content/pages/services.md"
+        label: "Services"
+        name: "services"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "SEO Title", name: seoTitle, widget: string, required: false }
+          - { label: "SEO Description", name: seoDescription, widget: text, required: false }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: string, required: false }
+          - { label: "Hero Image", name: heroImage, widget: image, required: false }
+          - { label: "Show in Navigation", name: showInNav, widget: boolean, default: true }
+          - { label: "Navigation Order", name: navOrder, widget: number, default: 3 }
+          - { label: "Canonical URL", name: canonicalUrl, widget: string, required: false }
+          - { label: "OG Image", name: ogImage, widget: image, required: false }
+          - { label: Body, name: body, widget: markdown }
+
+      - file: "src/content/pages/gallery.md"
+        label: "Gallery"
+        name: "gallery"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "SEO Title", name: seoTitle, widget: string, required: false }
+          - { label: "SEO Description", name: seoDescription, widget: text, required: false }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: string, required: false }
+          - { label: "Hero Image", name: heroImage, widget: image, required: false }
+          - { label: "Show in Navigation", name: showInNav, widget: boolean, default: true }
+          - { label: "Navigation Order", name: navOrder, widget: number, default: 4 }
+          - { label: "Canonical URL", name: canonicalUrl, widget: string, required: false }
+          - { label: "OG Image", name: ogImage, widget: image, required: false }
+          - { label: Body, name: body, widget: markdown }
+
+      - file: "src/content/pages/contact.md"
+        label: "Contact"
+        name: "contact"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "SEO Title", name: seoTitle, widget: string, required: false }
+          - { label: "SEO Description", name: seoDescription, widget: text, required: false }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: string, required: false }
+          - { label: "Hero Image", name: heroImage, widget: image, required: false }
+          - { label: "Show in Navigation", name: showInNav, widget: boolean, default: true }
+          - { label: "Navigation Order", name: navOrder, widget: number, default: 5 }
+          - { label: "Canonical URL", name: canonicalUrl, widget: string, required: false }
+          - { label: "OG Image", name: ogImage, widget: image, required: false }
+          - { label: Body, name: body, widget: markdown }

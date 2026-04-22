@@ -1,0 +1,5 @@
+# Security.txt — Responsible Disclosure Policy
+# https://securitytxt.org/
+
+Contact: CLIENT_EMAIL_PLACEHOLDER
+Preferred-Languages: en

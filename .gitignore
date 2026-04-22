@@ -1,0 +1,28 @@
+# Source files - exclude from deployment
+src/
+public/
+astro.config.mjs
+tsconfig.json
+tailwind.config.mjs
+package.json
+package-lock.json
+
+# Original dist folder (contents copied to root)
+dist/
+
+# Node modules
+node_modules/
+.npm/
+
+# Build artifacts
+.astro/
+.opencode/
+.template-reference/
+
+# Editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
